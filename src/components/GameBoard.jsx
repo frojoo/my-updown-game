@@ -80,7 +80,7 @@ function GameBoard() {
             onChange={onChangeNum}
           />
           <input
-            className="border-2 border-white rounded-lg shadow-md py-2 px-3"
+            className="border-2 border-white rounded-lg shadow-md py-2 px-3 cursor-pointer"
             type="submit"
             value="확인"
           />
