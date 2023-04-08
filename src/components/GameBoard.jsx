@@ -14,7 +14,8 @@ function GameBoard() {
     setInputNum(e.target.value);
   };
 
-  const onClickCheck = () => {
+  const onClickCheck = (e) => {
+    e.preventDefault();
     let checkNum = parseInt(inputNum);
 
     if (checkNum < 1 || checkNum > 100) {
@@ -47,7 +48,7 @@ function GameBoard() {
       setPoint(5);
     }
     if (point < 1) {
-      setHint("실패!");
+      setHint("실패! 새 게임을 시작합니다");
       setInputNum("");
       setRandomNum(Math.floor(Math.random() * 100) + 1);
       setPoint(5);
@@ -65,24 +66,25 @@ function GameBoard() {
   useEffect(() => console.log(`현재 포인트: ${point}점`), [point]);
 
   return (
-    <div className="w-full grow flex flex-col justify-center items-center">
+    <div className="w-full h-[50vh] flex flex-col justify-center items-center">
       <div className="text-4xl  mb-4 font-bold border-2 border-white p-3 pb-5">
         Up-Down Game
       </div>
       <div className="text-4xl mt-4 mb-4 font-bold">{hint}</div>
       <div>
-        <input
-          className="rounded-lg py-2 mr-3 focus:outline-slate-300 shadow-md"
-          type="text"
-          value={inputNum}
-          onChange={onChangeNum}
-        />
-        <button
-          onClick={onClickCheck}
-          className="border-2 border-white rounded-lg shadow-md py-2 px-3"
-        >
-          확인
-        </button>
+        <form onSubmit={onClickCheck}>
+          <input
+            className="rounded-lg py-2 mr-3 focus:outline-slate-300 shadow-md"
+            type="text"
+            value={inputNum}
+            onChange={onChangeNum}
+          />
+          <input
+            className="border-2 border-white rounded-lg shadow-md py-2 px-3"
+            type="submit"
+            value="확인"
+          />
+        </form>
       </div>
     </div>
   );
