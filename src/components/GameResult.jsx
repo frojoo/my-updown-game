@@ -15,11 +15,13 @@ function GameResult() {
       <div className="text-xl py-3 font-bold">
         목표: 30점 이상을 달성하세요! 기회는 {point}번입니다.
       </div>
-      <div className="relative w-1/2  my-2 p-2 flex justify-center bg-slate-400 rounded-lg text-white">
-        <div className="text-xl py-3 font-bold ">내 포인트: {myPoint}점</div>
+      <div className="w-1/2 flex justify-center items-center">
+        <div className="text-xl flex justify-center items-center w-1/2 py-3 font-bold my-2 p-2 bg-slate-400 rounded-lg text-white">
+          내 포인트: {myPoint}점
+        </div>
         <button
           onClick={onClickReset}
-          className="text-lg absolute right-0 bottom-0 p-1"
+          className="text-xl ml-3 bg-slate-400 rounded-lg text-white px-2 py-3"
         >
           Reset
         </button>
