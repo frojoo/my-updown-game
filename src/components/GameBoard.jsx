@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../App";
+import App, { AppContext } from "../App";
 
 function GameBoard() {
-  const [hint, setHint] = useState("1~100의 숫자 중 하나를 맞춰보세요");
+  const { hint, setHint } = useContext(AppContext);
   const [randomNum, setRandomNum] = useState(
     Math.floor(Math.random() * 100) + 1
   );
   const [inputNum, setInputNum] = useState("");
-  const [point, setPoint] = useState(5);
+  const { point, setPoint } = useContext(AppContext);
   const { myPoint, setMyPoint } = useContext(AppContext);
 
   const onChangeNum = (e) => {
@@ -36,19 +36,13 @@ function GameBoard() {
       setHint("DOWN👇");
       setInputNum("");
       setPoint(point - 1);
-    } else {
-      setHint("정답🎉🎉🎉");
+    } else if (checkNum === randomNum) {
+      setHint("정답🎉🎉🎉 다음 게임을 시작합니다");
 
       if (point >= 0) {
-        localStorage.setItem("point", JSON.stringify(point));
+        localStorage.setItem("point", parseInt(myPoint) + point);
         setMyPoint(localStorage.getItem("point"));
       }
-      setInputNum("");
-      setRandomNum(Math.floor(Math.random() * 100) + 1);
-      setPoint(5);
-    }
-    if (point < 1) {
-      setHint("실패! 새 게임을 시작합니다");
       setInputNum("");
       setRandomNum(Math.floor(Math.random() * 100) + 1);
       setPoint(5);
@@ -56,14 +50,21 @@ function GameBoard() {
   };
 
   useEffect(() => {
-    console.log(`랜덤 숫자는 ${randomNum}입니다`);
-  }, [randomNum]);
+    if (point === 0) {
+      setHint("실패! 새 게임을 시작합니다");
+      setInputNum("");
+      setRandomNum(Math.floor(Math.random() * 100) + 1);
+      setPoint(5);
+    }
+  }, [point]);
 
   useEffect(() => {
-    console.log(`입력하신 숫자는 ${inputNum}입니다`);
-  }, [inputNum]);
-
-  useEffect(() => console.log(`현재 포인트: ${point}점`), [point]);
+    if (parseInt(myPoint) >= 30) {
+      setHint("🎉🎉🎉축하합니다. 목표를 달성했습니다.🎉🎉🎉");
+      localStorage.clear();
+      setMyPoint(0);
+    }
+  }, [parseInt(myPoint)]);
 
   return (
     <div className="w-full h-[50vh] flex flex-col justify-center items-center">
